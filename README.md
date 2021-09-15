@@ -10,10 +10,13 @@ You can use this class to retreive information from the output files generated a
 The output will be a dictionary of dictionaries (Containing the single point Energy calculations and Geometric optimization final energies found under the specified directory)
 
 ```python3
-parser = output_parser(base_file_path='./cp2k/Au_Nanoparticles/') # Depth automatically set to inf
-Energies = parser.get_energies(all=False) # If all=False then only the final energies will be retrieved
+# Depth automatically set to inf
+parser = output_parser(base_file_path='./cp2k') 
+# If all=False then only the final energies will be retrieved
+Energies = parser.get_energies(all=False) 
 print(Energies)
 ```
+**Output:**
 ```
 {'ENERGY': defaultdict(float,
              {'Folder_Name1': -1000.997638482306,
