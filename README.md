@@ -23,7 +23,6 @@ print(Energies)
 {'ENERGY': defaultdict(float,
              {'Folder_Name1': -1000.997638482306,
               'Folder_Name2': -1000.997638482306,
-              'Folder_Name8': -1000.900349392778,
               'Folder_Name6': -1000.900349392778}),
  'GEO_OPT': defaultdict(None,
              {'Folder_Name5': -1000.900349392778,
