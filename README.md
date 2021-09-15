@@ -6,8 +6,16 @@ CP2K is a quantum chemistry and solid state physics software package.  I will ex
 ## Subpackages
 
 ### output_parser
+**Uses**
 
-You can use this class to retreive information from the output files generated after running a calculation using cp2k.  The class will retrieve all information under the given directory (with a max depth as an optional extra argument) and use the directory names to classify each calculation you ran.  Therefore, you should not have two seperate cp2k calculations with the same directory name.  An example is shown below:
+* Retreive information from the output files generated after running a calculation using cp2k. 
+
+**Important Note** 
+
+* The class will retrieve all information under the given directory (with a max depth as an optional extra argument) and use the directory names to classify each calculation you ran.  Therefore, you should not have two seperate cp2k calculations with the same directory name.  
+
+
+**Example**
 
 The output will be a dictionary of dictionaries (Containing the single point Energy calculations and Geometric optimization final energies found under the specified directory)
 
@@ -30,6 +38,8 @@ print(Energies)
               'Folder_Name3': -1000.900349392778,
               'Folder_Name4': -1000.900349392778})}
 ```
+
+**Note:** 
 
 The output example has fake foldernames and energy values for proprietary reasons.
 
