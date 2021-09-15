@@ -3,6 +3,15 @@ This is a package I plan on building up throughout my Ph.D. to help accelerate m
 
 CP2K is a quantum chemistry and solid state physics software package.  I will explain some of the functionalities I have build so far below.
 
+## Installation 
+
+Please run the following in your terminal where you would like to install the package directory.
+```
+git clone https://github.com/loevlie/cp2k_helper.git
+cd cp2k_helper/
+pip install .
+```
+
 ## Subpackages
 
 ### output_parser
