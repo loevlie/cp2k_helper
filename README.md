@@ -3,18 +3,23 @@ This is a package I plan on building up throughout my Ph.D. to help accelerate m
 
 CP2K is a quantum chemistry and solid state physics software package.  I will explain some of the functionalities I have build so far below.
 
-## Installation 
+# Installation 
 
 Please run the following in your terminal where you would like to install the package directory.
 ```
 git clone https://github.com/loevlie/cp2k_helper.git
-cd cp2k_helper/
-pip install .
+pip install -e cp2k_helper
 ```
 
-## Subpackages
+I am pretty sure you can update cp2k_helper later by just going to the directory and running:
 
-### output_parser
+```
+git pull
+```
+
+# Example Usage
+
+## output_parser
 **Uses**
 
 * Retreive information from the output files generated after running a calculation using cp2k. 
@@ -52,6 +57,11 @@ print(Energies)
 
 The output example has fake foldernames and energy values for proprietary reasons.
 
-## Contribute to cp2k helper
+# Contribute to cp2k helper
 
 If you have any ideas of features that would be nice to have in cp2k helper please reach out to me or submit a pull request! 
+
+# Reporting Issues
+
+Please report issues at https://github.com/loevlie/cp2k_helper/issues.
+
