@@ -3,7 +3,9 @@ This is a package I plan on building up throughout my Ph.D. to help accelerate m
 
 CP2K is a quantum chemistry and solid state physics software package.  I will explain some of the functionalities I have build so far below.
 
-## output_parser
+## Subpackages
+
+### output_parser
 
 You can use this class to retreive information from the output files generated after running a calculation using cp2k.  The class will retrieve all information under the given directory (with a max depth as an optional extra argument) and use the directory names to classify each calculation you ran.  Therefore, you should not have two seperate cp2k calculations with the same directory name.  An example is shown below:
 
