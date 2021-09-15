@@ -59,7 +59,7 @@ The output example has fake foldernames and energy values for proprietary reason
 
 # Contribute to cp2k helper
 
-If you have any ideas of features that would be nice to have in cp2k helper please reach out to me or submit a pull request! 
+If you have any ideas for features that would be nice to have in cp2k_helper please reach out to me or submit a pull request! 
 
 # Reporting Issues
 
