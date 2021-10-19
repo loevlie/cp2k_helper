@@ -1,7 +1,7 @@
 # cp2k_helper
 This is a package I plan on building up throughout my Ph.D. to help accelerate my work with cp2k.
 
-CP2K is a quantum chemistry and solid state physics software package.  I will explain some of the functionalities I have build so far below.
+CP2K is a quantum chemistry and solid state physics software package.  I will explain some of the functionalities I have built so far below.
 
 # Installation 
 
