@@ -5,7 +5,8 @@ import seaborn as sns
 from io import StringIO   # StringIO behaves like a file object
 import os
 from collections import defaultdict
-
+import argparse 
+from shutil import copy2
 # HELPER FUNCTIONS
 
 def search_util(root='.',depth=np.inf,parse_by = None):
@@ -107,3 +108,65 @@ class output_parser:
             Energy = self.all_energies
 
         return Energy
+
+    def restart_job(self):
+        """This function sets up a directory for restarting a job
+        """
+
+        input_file = search_util(self.base_file_path,parse_by='.inp',depth=1)
+        assert len(input_file)==1, f"There are more than one input file found in the directory\nInput files found: {input_file}"
+        input_file = input_file[0]
+        restart_files = search_util(self.base_file_path,parse_by='.restart',depth=1)
+        restart_file = []
+        for f in restart_files:
+            if f.endswith('.restart'):
+                restart_file.append(f)
+        assert len(restart_file)==1, f"There are more than one restart file found in the directory\nRestart files found: {restart_file}"
+        restart_file = restart_file[0]
+
+        xyz_files = search_util(self.base_file_path,parse_by='.xyz',depth=1)
+        xyz_file = min(xyz_files, key=len) # Assuming the original xyz file is the shortest one
+
+        with open(input_file,'r') as g:
+            input_f = g.read().split('\n')
+        
+        restart_input_file = ['&EXT_RESTART',f'RESTART_FILE_NAME {os.path.basename(restart_file)}','&END EXT_RESTART']
+        for i,line in enumerate(input_f):
+            if 'SCF_GUESS' in line:
+                input_f[i] = input_f[i].replace('ATOMIC','RESTART')
+        
+        restart_input_file.extend(input_f)
+        RESTART_INPUT_FILE = '\n'.join(restart_input_file)
+
+        slurm_file = search_util(self.base_file_path,parse_by='.slurm',depth=1)
+
+        if len(slurm_file) > 1:
+            print(f"WARNING MORE THAN ONE SLURM FILE\nUSING THE SHORTEST ONE\nSLURM FILES FOUND: {slurm_file}")
+
+        slurm_file = min(slurm_file,key=len)
+
+        ##### MAKING THE RESTART DIRECTORY AND ADDING THE FILES NEEDED
+        struct_name = os.path.basename(xyz_file).split('.xyz')[0]
+        folder_name = f'RESTART_{struct_name}'
+        os.mkdir(folder_name)
+        copy2(xyz_file,folder_name)
+        copy2(os.path.basename(slurm_file),folder_name)
+        copy2(os.path.basename(restart_file),folder_name)
+        f = open(os.path.join(folder_name,os.path.basename(input_file)),"w+")
+        f.write(RESTART_INPUT_FILE)
+        f.close()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Command Line Tools for CP2K')
+
+    parser.add_argument('--restart',nargs='?', const='.')
+    args = parser.parse_args()
+
+    if args.restart:
+        parser_ = output_parser(base_file_path='.',depth=1)
+        parser_.restart_job()
+
+
+
+

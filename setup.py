@@ -16,6 +16,10 @@ setuptools.setup(name='cp2k_helper',
                  long_description=description,
                  long_description_content_type='text/markdown',
                  packages=setuptools.find_packages(),
+                 entry_points = {
+                        'console_scripts': [
+                            'cp2k_helper = cp2k_helper.__main__:main'
+                        ]},
                  python_requires='>=3.5',
                  install_requires=['matplotlib',
                                    'numpy>=1.17.2',
