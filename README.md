@@ -41,7 +41,7 @@ Energies = parser.get_energies(all=False)
 print(Energies)
 ```
 **Output:**
-```
+```python3
 {'ENERGY': defaultdict(float,
              {'Folder_Name1': -1000.997638482306,
               'Folder_Name2': -1000.997638482306,
