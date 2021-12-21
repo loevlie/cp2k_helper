@@ -62,7 +62,7 @@ The output example has fake foldernames and energy values for proprietary reason
 
 **restart**
 
-cp2k_helper has a handy command line tool for restarting a calculation if it timed out.  Just execute the command below in the direcotry that the calculation timed out and a new subdirectory will be created for the new job.  You can then submit the new job to restart the calculation.  
+cp2k_helper has a handy command line tool for restarting a calculation if it timed out.  Just execute the command below in the directory that the calculation timed out and a new subdirectory will be created for the new job.  You can then submit the new job to restart the calculation.  
 
 ```
 cp2k_helper --restart 
