@@ -7,6 +7,8 @@ import os
 from collections import defaultdict
 import argparse 
 from shutil import copy2
+import datetime 
+import getpass
 # HELPER FUNCTIONS
 
 def search_util(root='.',depth=np.inf,parse_by = None):
@@ -155,6 +157,68 @@ class output_parser:
         f = open(os.path.join(folder_name,os.path.basename(input_file)),"w+")
         f.write(RESTART_INPUT_FILE)
         f.close()
+    
+
+def Summ(PATH):
+    username = getpass.getuser()
+
+    if os.path.isfile(PATH) and os.access(PATH, os.R_OK): # The path exists and the file is readable
+        print(PATH)
+        print()
+        with open(PATH,'r') as g:
+            Out_File = g.read()
+        out = np.genfromtxt(StringIO(Out_File),delimiter='\t',dtype='str',skip_header=1)
+        lines = np.flatnonzero(np.char.find(out,'Project name')!=-1)
+        project_name = out[lines[0]].strip().split()[-1]
+        print(f"Job name:\t{project_name}")
+        print(f"Calc run by:\t{username}")
+        lines_run_type =  np.flatnonzero(np.char.find(out,'Run type')!=-1)
+        run_type = out[lines_run_type[0]].strip().split()[-1] # Assuming it is the first thing you put after RUN_TYPE
+        print(f"CP2K run type:\t{run_type}")
+
+        # Now let's get the runtime 
+        lines =  np.flatnonzero(np.char.find(out,'CP2K')!=-1)
+        time = out[lines[-1]].strip().split()[-1]
+        if time.replace(".","").isnumeric():
+            conversion = datetime.timedelta(seconds=round(float(time))) # Converting the seconds from OPT file to a time
+            converted_time = str(conversion)
+            print(f"Total runtime: {converted_time}")
+        else:
+            lines =  np.flatnonzero(np.char.find(out,'PROGRAM STARTED AT')!=-1)
+            time = " ".join(out[lines[0]].strip().split()[-2:])
+            date = datetime.datetime.strptime(time,"%Y-%m-%d %H:%M:%S.%f")
+            now = datetime.datetime.now()
+            diff = now - date 
+            print(f"Total runtime: JOB STILL RUNNING, Current time: {diff}")
+
+        lines =  np.flatnonzero(np.char.find(out,'ENERGY')!=-1)
+        print(f'Total Iterations: {len(lines)} iters')
+        print()
+        # Get the atom info
+        lines =  np.flatnonzero(np.char.find(out,'Atomic kind:')!=-1)
+        print("System Information:")
+        for line in lines:
+            print("\t"+out[line])
+        print()
+        print("Warning Information:")
+        # Get the warnings
+        lines =  np.flatnonzero(np.char.find(out,'WARNING')!=-1)
+        #warns = [out[line] if out[line] not in warns for line in lines]
+        warns = []
+        for line in lines:
+            if out[line] not in warns:
+                warns.append(out[line])
+        for i, warn in enumerate(warns):
+            print(f'\t{i+1}: {warn}')
+
+        print()
+        final_lines = out[-9:]
+        for line in final_lines:
+            print(line)
+
+
+
+
 
 
 if __name__ == '__main__':
