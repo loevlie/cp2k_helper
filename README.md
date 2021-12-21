@@ -1,11 +1,35 @@
 # cp2k_helper
 This is a package I plan on building up throughout my Ph.D. to help accelerate my work with cp2k.
 
-CP2K is a quantum chemistry and solid state physics software package.  I will explain some of the functionalities I have build so far below.
+CP2K is a quantum chemistry and solid state physics software package.  I will explain some of the functionalities I have built so far below.
+
+# Installation 
+
+Please run the following in your terminal where you would like to install the package directory.
+```
+git clone https://github.com/loevlie/cp2k_helper.git
+pip install -e cp2k_helper
+```
+
+I am pretty sure you can update cp2k_helper later by just going to the directory and running:
+
+```
+git pull
+```
+
+# Example Usage
 
 ## output_parser
+**Uses**
 
-You can use this class to retreive information from the output files generated after running a calculation using cp2k.  The class will retrieve all information under the given directory (with a max depth as an optional extra argument) and use the directory names to classify each calculation you ran.  Therefore, you should not have two seperate cp2k calculations with the same directory name.  An example is shown below:
+* Retreive information from the output files generated after running a calculation using cp2k. 
+
+**Important Note** 
+
+* The class will retrieve all information under the given directory (with a max depth as an optional extra argument) and use the directory names to classify each calculation you ran.  Therefore, you should not have two seperate cp2k calculations with the same directory name.  
+
+
+**Example**
 
 The output will be a dictionary of dictionaries (Containing the single point Energy calculations and Geometric optimization final energies found under the specified directory)
 
@@ -17,11 +41,10 @@ Energies = parser.get_energies(all=False)
 print(Energies)
 ```
 **Output:**
-```
+```python3
 {'ENERGY': defaultdict(float,
              {'Folder_Name1': -1000.997638482306,
               'Folder_Name2': -1000.997638482306,
-              'Folder_Name8': -1000.900349392778,
               'Folder_Name6': -1000.900349392778}),
  'GEO_OPT': defaultdict(None,
              {'Folder_Name5': -1000.900349392778,
@@ -30,8 +53,26 @@ print(Energies)
               'Folder_Name4': -1000.900349392778})}
 ```
 
+
+**Note:** 
+
 The output example has fake foldernames and energy values for proprietary reasons.
 
-## Contribute to cp2k helper
+## Command Line tools
 
-If you have any ideas of features that would be nice to have in cp2k helper please reach out to me or submit a pull request! 
+**restart**
+
+cp2k_helper has a handy command line tool for restarting a calculation if it timed out.  Just execute the command below in the direcotry that the calculation timed out and a new subdirectory will be created for the new job.  You can then submit the new job to restart the calculation.  
+
+```
+cp2k_helper --restart 
+```
+
+# Contribute to cp2k helper
+
+If you have any ideas for features that would be nice to have in cp2k_helper please reach out to me or submit a pull request! 
+
+# Reporting Issues
+
+Please report issues at https://github.com/loevlie/cp2k_helper/issues.
+
