@@ -64,7 +64,7 @@ class output_parser:
             line = np.flatnonzero(np.char.find(inp,'RUN_TYPE')!=-1)
             assert len(line) == 1 # There seems to be more than one line in the input file for "RUN_TYPE"
             parent_dir = os.path.split(os.path.split(os.path.realpath(file))[0])[1]
-            self.run_types[parent_dir] = inp[line][0].strip().split()[-1]
+            self.run_types[parent_dir] = inp[line][0].strip().split()[1]
 
         return self.run_types
 
