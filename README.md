@@ -68,6 +68,14 @@ cp2k_helper has a handy command line tool for restarting a calculation if it tim
 cp2k_helper --restart 
 ```
 
+**summ**
+
+cp2k_helper can give you a quick summary of your output file.  Just use the command below with your output filename:
+
+```
+cp2k_helper --summ OPT.out
+```
+
 # Contribute to cp2k helper
 
 If you have any ideas for features that would be nice to have in cp2k_helper please reach out to me or submit a pull request! 
