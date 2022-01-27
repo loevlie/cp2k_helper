@@ -127,6 +127,7 @@ class output_parser:
         restart_file = restart_file[0]
 
         xyz_files = search_util(self.base_file_path,parse_by='.xyz',depth=1)
+        xyz_files = [x for x in xyz_files if 'pos' not in x]
         xyz_file = min(xyz_files, key=len) # Assuming the original xyz file is the shortest one
 
         with open(input_file,'r') as g:
