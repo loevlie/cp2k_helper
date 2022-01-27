@@ -98,9 +98,10 @@ The above command will save a csv file to your current directory with all of the
 **TODO:**
 Add optional information to the csv file on the following
 1. Functional
-2. Convergence criteria
-3. Atomic composition
-4. Etc. (if anyone has other information they think would be useful please add it to this list)
+2. Did the calculation converge? (this one is important/useful)
+3. Convergence criteria
+4. Atomic composition
+5. Etc. (if anyone has other information they think would be useful please add it to this list)
 
 # Contribute to cp2k helper
 
