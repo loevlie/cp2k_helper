@@ -138,9 +138,13 @@ class output_parser:
             if 'SCF_GUESS' in line:
                 input_f[i] = input_f[i].replace('ATOMIC','RESTART')
         
-        restart_input_file.extend(input_f)
-        RESTART_INPUT_FILE = '\n'.join(restart_input_file)
-
+        if '&EXT_RESTART' in input_f[0]:
+            restart_input_file.extend(input_f[3:])
+            RESTART_INPUT_FILE = '\n'.join(restart_input_file)
+        else:
+            restart_input_file.extend(input_f)
+            RESTART_INPUT_FILE = '\n'.join(restart_input_file)
+        
         slurm_file = search_util(self.base_file_path,parse_by='.slurm',depth=1)
 
         if len(slurm_file) > 1:
