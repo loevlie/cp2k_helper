@@ -78,13 +78,22 @@ cp2k_helper --summ OPT.out
 
 ### **energy**
 
-cp2k_helper can quickly get you the final energy values from all GEO_OPT or ENERGY DFT calculations under a specified directory.  They are saved as a csv (optionally you may name it whatever you want but the default is Energies.csv).  An example of using this feature for all of the calculations under the current folder is below:
+cp2k_helper can quickly get you the final energy values from all GEO_OPT or ENERGY DFT calculations under a specified directory.  The values are converted from Ha to eV.  They are saved as a csv (optionally you may name it whatever you want but the default is Energies.csv).  An example of using this feature for all of the calculations under the current folder is below:
 
 ```
 cp2k_helper --energy . My_Energy_Values
 ```
 
-The above command will save a csv file to your current directory with all of the energy values along with the type of calculation run and the folder name of each.  
+The above command will save a csv file to your current directory with all of the final energy values along with the type of calculation run and the folder name of each.  As of now the .csv file will look similar to below (if you had 4 DFT calculations in the given directory).
+
+**Energies.csv**
+
+| Folder_Name   | Type          | Energy (eV)   |
+| ------------- | ------------- | ------------- |
+| Folder_1      | GEO_OPT       | -10000.34324  |
+| Folder_2      | ENERGY        | -10000.34324  |
+| Folder_3      | ENERGY        | -10100.34324  |
+| Folder_4      | GEO_OPT       | -10000.34324  |
 
 **TODO:**
 Add optional information to the csv file on the following
