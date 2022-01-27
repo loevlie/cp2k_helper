@@ -34,6 +34,7 @@ git pull
 The output will be a dictionary of dictionaries (Containing the single point Energy calculations and Geometric optimization final energies found under the specified directory)
 
 ```python3
+from cp2k_helper import output_parser
 # Depth automatically set to inf
 parser = output_parser(base_file_path='./cp2k') 
 # If all=False then only the final energies will be retrieved
