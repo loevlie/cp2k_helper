@@ -24,7 +24,6 @@ def main():
                 energy_dict['Type'].append(run_type)
                 energy_dict['Folder_Name'].append(folder_name)
                 energy_dict['Energy (eV)'].append(energies[run_type][folder_name]*Ha_to_eV)
-        
         df = pd.DataFrame(energy_dict)
         try:
             df.to_csv(str(args[2])+'.csv')

@@ -9,6 +9,7 @@ import argparse
 from shutil import copy2
 import datetime 
 import getpass
+from pathlib import Path
 # HELPER FUNCTIONS
 
 def search_util(root='.',depth=np.inf,parse_by = None):
@@ -24,6 +25,11 @@ def search_util(root='.',depth=np.inf,parse_by = None):
     root = os.path.abspath(os.path.expanduser(os.path.expandvars(root)))
     if parse_by: 
         for r, d, f in os.walk(root):
+            try:
+                if 'RESTART' in '\t'.join(d):
+                    continue
+            except:
+                restart = False
             if r[len(root):].count(os.sep) < depth:
                 for file in f:
                     if parse_by in file:
@@ -66,7 +72,11 @@ class output_parser:
             inp = np.genfromtxt(StringIO(inp_file1),delimiter='\t',dtype='str',skip_header=1)
             line = np.flatnonzero(np.char.find(inp,'RUN_TYPE')!=-1)
             assert len(line) == 1 # There seems to be more than one line in the input file for "RUN_TYPE"
-            parent_dir = os.path.split(os.path.split(os.path.realpath(file))[0])[1]
+            # parent_dir = os.path.split(os.path.split(os.path.realpath(file))[0])[1]
+
+            path = Path(str(file))
+            parent_dir = path.parent.absolute()
+
             self.run_types[parent_dir] = inp[line][0].strip().split()[1]
 
         return self.run_types
@@ -89,7 +99,9 @@ class output_parser:
                     Out_File1 = g.read()
                 out = np.genfromtxt(StringIO(Out_File1),delimiter='\t',dtype='str',skip_header=1)
                 lines = np.flatnonzero(np.char.find(out,'ENERGY| Total FORCE_EVAL ( QS ) energy (a.u.):')!=-1)
-                parent_dir = os.path.split(os.path.split(os.path.realpath(file))[0])[1]
+                #parent_dir = os.path.split(os.path.split(os.path.realpath(file))[0])[1]
+                path = Path(str(file))
+                parent_dir = path.parent.absolute()
                 if run_types[parent_dir]=='GEO_OPT':
                     self.all_energies['GEO_OPT'][parent_dir] = []
                 for line in lines:
@@ -105,7 +117,9 @@ class output_parser:
                     Out_File1 = g.read()
                 out = np.genfromtxt(StringIO(Out_File1),delimiter='\t',dtype='str',skip_header=1)
                 lines = np.flatnonzero(np.char.find(out,'ENERGY| Total FORCE_EVAL ( QS ) energy (a.u.):')!=-1)
-                parent_dir = os.path.split(os.path.split(os.path.realpath(file))[0])[1]
+                #parent_dir = os.path.split(os.path.split(os.path.realpath(file))[0])[1]
+                path = Path(str(file))
+                parent_dir = path.parent.absolute()
                 self.all_energies[run_types[parent_dir]][parent_dir] = float(out[lines[-1]].split()[-1])
             Energy = self.all_energies
 
@@ -127,11 +141,7 @@ class output_parser:
         restart_file = restart_file[0]
 
         xyz_files = search_util(self.base_file_path,parse_by='.xyz',depth=1)
-<<<<<<< HEAD
-        xyz_files = [x for x in xyz_files if 'pos' not in x]
-=======
         xyz_files = [x for x in xyz_files if '-pos' not in x]
->>>>>>> b9eea34d02489baaa734c806f44e18bd150ebd87
         xyz_file = min(xyz_files, key=len) # Assuming the original xyz file is the shortest one
 
         with open(input_file,'r') as g:
