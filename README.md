@@ -89,20 +89,24 @@ The above command will save a csv file to your current directory with all of the
 
 **Energies.csv**
 
+<div align="center">
+  
 | Folder_Name   | Type          | Energy (eV)   |
 | ------------- | ------------- | ------------- |
 | Folder_1      | GEO_OPT       | -10000.34324  |
 | Folder_2      | ENERGY        | -10000.34324  |
 | Folder_3      | ENERGY        | -10100.34324  |
 | Folder_4      | GEO_OPT       | -10000.34324  |
+  
+</div>
 
 **TODO:**
 Add optional information to the csv file on the following
-1. Functional
-2. Did the calculation converge? (this one is important/useful)
-3. Convergence criteria
-4. Atomic composition
-5. Etc. (if anyone has other information they think would be useful please add it to this list)
+- [ ] Functional
+- [ ] Did the calculation converge? (this one is important/useful)
+- [ ] Convergence criteria
+- [ ] Atomic composition
+- [ ] Etc. (if anyone has other information they think would be useful please add it to this list)
 
 # Contribute to cp2k helper
 
