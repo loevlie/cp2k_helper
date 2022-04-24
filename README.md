@@ -1,20 +1,22 @@
+# [![PyPi Version](https://img.shields.io/pypi/v/cp2k-helper.svg)](https://pypi.org/project/cp2k-helper/0.0.2/)
 # cp2k_helper
 This is a package I plan on building up throughout my Ph.D. to help accelerate my work with cp2k.
 
 CP2K is a quantum chemistry and solid state physics software package.  I will explain some of the functionalities I have built so far below.
 
 # Installation 
+Installation through PyPi:
+```
+pip install cp2k_helper
+```
 
-Please run the following in your terminal where you would like to install the package directory.
+Or to install through GitHub:
+
+
+Run the following in your terminal where you would like to install the package directory.
 ```
 git clone https://github.com/loevlie/cp2k_helper.git
 pip install -e cp2k_helper
-```
-
-I am pretty sure you can update cp2k_helper later by just going to the directory and running:
-
-```
-git pull
 ```
 
 # Example Usage
