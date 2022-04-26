@@ -12,7 +12,7 @@ Installation through PyPi:
 pip install cp2k_helper
 ```
 
-Or to install through GitHub:
+Install through GitHub:
 
 
 Run the following in your terminal where you would like to install the package directory.
