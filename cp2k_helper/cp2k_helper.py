@@ -15,6 +15,7 @@ from pathlib import Path
 def search_util(root='.',depth=np.inf,parse_by = None):
     """
         Recursively find all files in a directory.
+        
         Parameters
         ---------
         root : str
@@ -23,6 +24,7 @@ def search_util(root='.',depth=np.inf,parse_by = None):
             The depth to search to. Default is infinite.
         parse_by : str
             The string to parse the files by. Default is None.
+            
         Returns
         -------
         files : list
@@ -231,10 +233,13 @@ class output_parser:
     
 
 def Summ(PATH):
-    """ This function allows you to summarize the output files from a calculation by passing in the .out file
-    
-    Args:
-        PATH (str): The path to the .out file
+    """
+        This function allows you to summarize the output files from a calculation by passing in the .out file
+
+        Parameters
+        ---------
+        PATH : str
+             The path to the .out file
     """
     username = getpass.getuser()
 
