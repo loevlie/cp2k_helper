@@ -14,13 +14,20 @@ from pathlib import Path
 
 def search_util(root='.',depth=np.inf,parse_by = None):
     """  Recursively find all files in a directory.
-    root - This is the directory you would like to find the files in, defaults to cwd
-    Args:
-        root (str, optional): The directory you would like to recursively search through. Defaults to '.'.
-        parse_by (str, optional): If string is provided the output files will contain the string in the path
-    Returns:
-        list: All files under the directory specified
+    Parameters
+    ----------
+    root : str
+        The root directory to search from.
+    depth : int
+        The depth to search to. Default is infinite.
+    parse_by : str
+        The string to parse the files by. Default is None.
+    Returns
+    -------
+    files : list
+        A list of files found.
     """
+
     files = []
     root = os.path.abspath(os.path.expanduser(os.path.expandvars(root)))
     if parse_by: 
@@ -42,30 +49,54 @@ def search_util(root='.',depth=np.inf,parse_by = None):
     return files
 
 def checkIfDuplicates(listOfElems):
-    ''' Check if given list contains any duplicates '''
+    """
+        Check if given list contains any duplicates
+
+        Parameters
+        ---------
+        listofElems : list
+             List of elements to be checked for duplicates
+    """
     if len(listOfElems) == len(set(listOfElems)):
         return False
     else:
         return True
 
 class output_parser:
+    "This class is used to parse the output files from CP2K"
     def __init__(self,base_file_path='.',depth=np.inf):
         self.base_file_path=base_file_path
         # We should add init statements to find a list of all of the important files
-        self.opt_files = search_util(base_file_path,parse_by='OPT.out',depth=depth)
+        self.opt_files = search_util(base_file_path,parse_by='OPT.out',depth=depth) # OPT.out files
         parent_dirs = []
         for file in self.opt_files:
             parent_dir = os.path.split(os.path.split(os.path.realpath(file))[0])[1]
             parent_dirs.append(parent_dir)
         assert not checkIfDuplicates(parent_dirs), "There are duplicate directory names in your given base path"
-        self.parent_dirs = parent_dirs
-        self.input_files = search_util(base_file_path,parse_by='.inp',depth=depth)
-        self.run_types = defaultdict(str)
-        self.all_energies = {'ENERGY':defaultdict(float),'GEO_OPT':defaultdict()}
+        self.parent_dirs = parent_dirs # List of all parent directories
+        self.input_files = search_util(base_file_path,parse_by='.inp',depth=depth) # .inp files
+        self.run_types = get_run_types(self.input_files) # Dictionary of run types
+        self.all_energies = {'ENERGY':defaultdict(),'GEO_OPT':defaultdict()} # Dictionary of energies
 
 
-    def get_run_types(self):
-        for file in self.input_files:
+    def get_run_types(self,input_files: list) -> dict:
+        """
+        This function parses the .inp files under the given directory and outputs the run type
+
+        Parameters
+        ---------
+        input_files : list
+             List of .inp files to be parsed
+
+        Returns
+        -------
+        dict
+            Dictionary of run types
+        
+        """
+
+        run_types = defaultdict(str)
+        for file in input_files:
             inp_file = file
             with open(inp_file,'r') as g:
                 inp_file1 = g.read()
@@ -77,21 +108,30 @@ class output_parser:
             path = Path(str(file))
             parent_dir = path.parent.absolute()
 
-            self.run_types[parent_dir] = inp[line][0].strip().split()[1]
+            run_types[parent_dir] = inp[line][0].strip().split()[1]
 
-        return self.run_types
+        return run_types
 
 
     def get_energies(self,all=True):
-        """This function parses the OPT.out files under the given directory and outputs the energy values
-
-        Args:
-            all (bool, optional): If True - Output all energy values| If False - Output final energy value. Defaults to True.
-        Returns:
-            dict: A dictionary of lists with the energy values from each directory 
         """
+        This function parses the OPT.out files under the given directory and outputs the energy values
+
+        Parameters
+        ---------
+        all : bool
+             If True - Output all energy values| If False - Output final energy value. Defaults to True.
+        
+        Returns
+        -------
+
+        energies : dict
+                Dictionary of energy values from each directory
+        """
+        
         # TODO add functionality to choose between getting single point and GEO_OPT energies
-        run_types = self.get_run_types()
+        run_types = self.run_types
+        
         if all:
             for file in self.opt_files:
                 Out_File = file
@@ -124,9 +164,12 @@ class output_parser:
             Energy = self.all_energies
 
         return Energy
+    
+
 
     def restart_job(self):
-        """This function sets up a directory for restarting a job
+        """
+        This function sets up a restart folder for the job that did not converge
         """
 
         input_file = search_util(self.base_file_path,parse_by='.inp',depth=1)
@@ -179,6 +222,11 @@ class output_parser:
     
 
 def Summ(PATH):
+    """ This function allows you to summarize the output files from a calculation by passing in the .out file
+    
+    Args:
+        PATH (str): The path to the .out file
+    """
     username = getpass.getuser()
 
     if os.path.isfile(PATH) and os.access(PATH, os.R_OK): # The path exists and the file is readable
