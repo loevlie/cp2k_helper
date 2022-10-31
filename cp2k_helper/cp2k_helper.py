@@ -176,12 +176,19 @@ class output_parser:
         assert len(input_file)==1, f"There are more than one input file found in the directory\nInput files found: {input_file}"
         input_file = input_file[0]
         restart_files = search_util(self.base_file_path,parse_by='.restart',depth=1)
+        restart_wfn_files = search_util(self.base_file_path,parse_by='.wfn',depth=1)
         restart_file = []
+        restart_wfn = []
         for f in restart_files:
             if f.endswith('.restart'):
                 restart_file.append(f)
+        for f in restart_wfn_files:
+            if f.endswith('.wfn'):
+                restart_wfn.append(f)
         assert len(restart_file)==1, f"There are more than one restart file found in the directory\nRestart files found: {restart_file}"
+        assert len(restart_wfn)==1, f"There are more than one restart file found in the directory\nRestart files found: {restart_wfn}"
         restart_file = restart_file[0]
+        restart_wfn = restart_wfn[0]
 
         xyz_files = search_util(self.base_file_path,parse_by='.xyz',depth=1)
         xyz_files = [x for x in xyz_files if '-pos' not in x]
@@ -214,6 +221,7 @@ class output_parser:
         folder_name = f'RESTART_{struct_name}'
         os.mkdir(folder_name)
         copy2(xyz_file,folder_name)
+        copy2(os.path.basename(restart_wfn),folder_name)
         copy2(os.path.basename(slurm_file),folder_name)
         copy2(os.path.basename(restart_file),folder_name)
         f = open(os.path.join(folder_name,os.path.basename(input_file)),"w+")

@@ -2,7 +2,7 @@
 
 <h1 align="center">cp2k_helper</h1>
 
-This is a package I plan on building up throughout my Ph.D. to help accelerate my work with cp2k.
+This is a package I plan on building up to help accelerate working with cp2k.
 
 CP2K is a quantum chemistry and solid state physics software package.  I will explain some of the functionalities I have built so far below.
 
