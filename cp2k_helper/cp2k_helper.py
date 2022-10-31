@@ -13,19 +13,20 @@ from pathlib import Path
 # HELPER FUNCTIONS
 
 def search_util(root='.',depth=np.inf,parse_by = None):
-    """  Recursively find all files in a directory.
-    Parameters
-    ----------
-    root : str
-        The root directory to search from.
-    depth : int
-        The depth to search to. Default is infinite.
-    parse_by : str
-        The string to parse the files by. Default is None.
-    Returns
-    -------
-    files : list
-        A list of files found.
+    """
+        Recursively find all files in a directory.
+        Parameters
+        ---------
+        root : str
+            The root directory to search from.
+        depth : int
+            The depth to search to. Default is infinite.
+        parse_by : str
+            The string to parse the files by. Default is None.
+        Returns
+        -------
+        files : list
+            A list of files found.
     """
 
     files = []
