@@ -35,7 +35,7 @@ pip install -e cp2k_helper
 
 **Example**
 
-The output will be a dictionary of dictionaries (Containing the single point Energy calculations and Geometric optimization final energies found under the specified directory)
+The output will be a dictionary of dictionaries (containing the single point energy calculations and geometric optimization final energies found under the specified directory)
 
 ```python3
 from cp2k_helper import output_parser
